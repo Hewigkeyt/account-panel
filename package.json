@@ -1,0 +1,26 @@
+{
+  "name": "account-panel",
+  "version": "1.0.0",
+  "description": "Front end assignment for a technical test",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.2",
+    "@fortawesome/free-solid-svg-icons": "^5.2.0",
+    "@fortawesome/vue-fontawesome": "^0.1.1",
+    "nuxt": "^1.4.2",
+    "nuxt-fontawesome": "^0.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "nuxt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hewigkeyt/account-panel.git"
+  },
+  "author": "hewigkeyt@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hewigkeyt/account-panel/issues"
+  },
+  "homepage": "https://github.com/Hewigkeyt/account-panel#readme"
+}
