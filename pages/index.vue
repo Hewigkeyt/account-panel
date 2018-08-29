@@ -1,14 +1,19 @@
 <template>
-<test></test>
+<div>
+  <title-bar :pageTitle="'Account'" :pageIcon="'user'"></title-bar>
+  <account-panel></account-panel>
+</div>
 </template>
 
 <script>
-  import test from '@/components/Test'
+  import titleBar from '@/components/Title'
+  import accountPanel from '@/components/AccountPanel'
   export default {
-    name: 'helloindex',
-    head () { return { title: '' } },
+    name: 'accountPage',
+    head () { return { title: 'Account' } },
     components: {
-      'test': test
+      'title-bar': titleBar,
+      'account-panel': accountPanel
     },
     data () {
       return {
