@@ -1,85 +1,181 @@
 <template>
-<div class="wrapper">
-  <table class="base-table">
-    <tbody>
-<!--   Profile picture   -->
-      <tr>
-        <td><font-awesome :icon="'user-circle'" class="icon"></font-awesome>Profile picture</td>
-        <td class="center"><img :src="'https://www.gravatar.com/avatar/' + hash + '?f=y'"></td>
-        <td></td>
-      </tr>
-<!--   Name   -->
-      <tr>
-        <td><font-awesome :icon="'user'" class="icon"></font-awesome>Full name</td>
-        <td v-if="!name_edit">{{full_name}}</td>
-        <td v-else>
-          <span class="row">
-            <span class="cell">Last name:</span>
-            <span class="cell"><input class="input" type="text" v-model="new_name.last">
-              <transition name="fade">
-                <span class="alert" v-if="last_name_alert">Last name shouldn't be empty.</span>
-              </transition>
+  <div class="wrapper">
+    <table class="base-table">
+      <tbody>
+        <!--   Profile picture   -->
+        <tr>
+          <td><font-awesome
+            :icon="'user-circle'"
+            class="icon"
+          />Profile picture
+          </td>
+          <td class="center"><img :src="'https://www.gravatar.com/avatar/' + hash + '?f=y'"></td>
+          <td />
+        </tr>
+        <!--   Name   -->
+        <tr>
+          <td><font-awesome
+            :icon="'user'"
+            class="icon"
+          />Full name</td>
+          <td v-if="!name_edit">{{ full_name }}</td>
+          <td v-else>
+            <span class="row">
+              <span class="cell">Last name:</span>
+              <span class="cell">
+                <input
+                  v-model="new_name.last"
+                  class="input"
+                  type="text"
+                >
+                <transition name="fade">
+                  <span
+                    v-if="last_name_alert"
+                    class="alert"
+                  >Last name shouldn't be empty.</span>
+                </transition>
+              </span>
             </span>
-          </span>
-          <span class="row">
-            <span class="cell">First name:</span>
-            <span class="cell"><input class="input" type="text" v-model="new_name.first">
-              <transition name="fade">
-                <span class="alert" v-if="first_name_alert">First name shouldn't be empty.</span>
-              </transition>
+            <span class="row">
+              <span class="cell">First name:</span>
+              <span class="cell">
+                <input
+                  v-model="new_name.first"
+                  class="input"
+                  type="text"
+                >
+                <transition name="fade">
+                  <span
+                    v-if="first_name_alert"
+                    class="alert"
+                  >First name shouldn't be empty.</span>
+                </transition>
+              </span>
             </span>
-          </span>
-        </td>
-        <td v-if="!name_edit"><button class="button trans" @click="name_edit = !name_edit">Edit</button></td>
-        <td v-else><button class="button trans" @click="cancel_name">Cancel</button><button class="button trans" @click="save_name">Save</button></td>
-      </tr>
-<!--   Email   -->
-      <tr>
-        <td><font-awesome :icon="'at'" class="icon"></font-awesome>Email</td>
-        <td v-if="!email_edit">{{email}}</td>
-        <td v-else>
-          <input class="input" type="text" v-model="new_email">
-          <transition name="fade">
-            <span class="alert" v-if="email_alert">Check the email format.</span>
-          </transition>
-        </td>
-        <td v-if="!email_edit"><button class="button trans" @click="email_edit = !email_edit">Edit</button></td>
-        <td v-else><button class="button trans" @click="cancel_email">Cancel</button><button class="button trans" @click="save_email">Save</button></td>
-      </tr>
-<!--   Password   -->
-      <tr>
-        <td><font-awesome :icon="'key'" class="icon"></font-awesome>Password</td>
-        <td v-if="!pass_edit">********</td>
-        <td v-else>
-          <div class="password-container">
-            <input class="input" :type="password_type" v-model="new_pass">
-            <font-awesome :icon="show_pass" class="eye" @click="toggle_pass"></font-awesome>
-          </div>
-          Password strength is : {{test_pass}}
-          <transition name="fade">
-            <span class="alert" v-if="pass_alert">Your new password is too weak.</span>
-          </transition>
-        </td>
-        <td v-if="!pass_edit"><button class="button trans" @click="pass_edit = !pass_edit">Edit</button></td>
-        <td v-else><button class="button trans" @click="cancel_pass">Cancel</button><button class="button trans" @click="save_pass">Save</button></td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="center save-button">
-    <transition name="fade">
-      <p class="big-alert" v-if="save_changes_alert">You're editing some fields. Please discard or save your changes.<br></p>
-    </transition>
-    <button class="button trans" v-if="has_changed" @click="save_profile">Save changes</button>
-  </div>
-
-  <transition name="fade">
-    <div v-if="popup" class="cover-popup" @click="popup = false">
-      <div class="contents-popup">
-        Your changes have been saved.
-      </div>
+          </td>
+          <td v-if="!name_edit">
+            <button
+              class="button trans"
+              @click="name_edit = !name_edit"
+          >Edit</button></td>
+          <td v-else>
+            <button
+              class="button trans"
+              @click="cancel_name"
+            >Cancel</button>
+            <button
+              class="button trans"
+              @click="save_name"
+          >Save</button></td>
+        </tr>
+        <!--   Email   -->
+        <tr>
+          <td>
+            <font-awesome
+              :icon="'at'"
+              class="icon"
+          />Email</td>
+          <td v-if="!email_edit">{{ email }}</td>
+          <td v-else>
+            <input
+              v-model="new_email"
+              class="input"
+              type="text"
+            >
+            <transition name="fade">
+              <span
+                v-if="email_alert"
+                class="alert"
+              >Check the email format.</span>
+            </transition>
+          </td>
+          <td v-if="!email_edit">
+            <button
+              class="button trans"
+              @click="email_edit = !email_edit"
+          >Edit</button></td>
+          <td v-else>
+            <button
+              class="button trans"
+              @click="cancel_email"
+            >Cancel</button>
+            <button
+              class="button trans"
+              @click="save_email"
+          >Save</button></td>
+        </tr>
+        <!--   Password   -->
+        <tr>
+          <td>
+            <font-awesome
+              :icon="'key'"
+              class="icon"
+          />Password</td>
+          <td v-if="!pass_edit">********</td>
+          <td v-else>
+            <div class="password-container">
+              <input
+                v-model="new_pass"
+                class="input"
+                :type="password_type"
+              >
+              <font-awesome
+                :icon="show_pass"
+                class="eye"
+                @click="toggle_pass"
+              />
+            </div>
+            Password strength is : {{ test_pass }}
+            <transition name="fade">
+              <span
+                v-if="pass_alert"
+                class="alert"
+              >Your new password is too weak.</span>
+            </transition>
+          </td>
+          <td v-if="!pass_edit">
+            <button
+              class="button trans"
+              @click="pass_edit = !pass_edit"
+          >Edit</button></td>
+          <td v-else>
+            <button
+              class="button trans"
+              @click="cancel_pass"
+            >Cancel</button>
+            <button
+              class="button trans"
+              @click="save_pass"
+          >Save</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="center save-button">
+      <transition name="fade">
+        <p
+          v-if="save_changes_alert"
+          class="big-alert"
+        >You're editing some fields. Please discard or save your changes.<br></p>
+      </transition>
+      <button
+        v-if="has_changed"
+        class="button trans"
+        @click="save_profile"
+      >Save changes</button>
     </div>
-  </transition>
-</div>
+
+    <transition name="fade">
+      <div
+        v-if="popup"
+        class="cover-popup"
+        @click="popup = false"
+      >
+        <div class="contents-popup">
+          Your changes have been saved.
+        </div>
+      </div>
+    </transition>
+  </div>
 </template>
 
 <script>
@@ -88,7 +184,7 @@
   //module needed to check the password strength
   import zxcvbn from 'zxcvbn'
   export default {
-    name: 'accountPanel',
+    name: 'AccountPanel',
     data () {
       return {
         email: '',
@@ -146,6 +242,15 @@
         }
         return text
       }
+    },
+    mounted () {
+      //@todo get data from API
+      this.email = 'default@email.com'
+      this.new_email = 'default@email.com'
+      this.name.last = 'Doe'
+      this.new_name.last = 'Doe'
+      this.name.first = 'John'
+      this.new_name.first = 'John'
     },
     methods: {
       cancel_name: function () {//discard the name changes, reset the variables
@@ -227,15 +332,6 @@
           this.has_changed = false
         }
       }
-    },
-    mounted () {
-      //@todo get data from API
-      this.email = 'default@email.com'
-      this.new_email = 'default@email.com'
-      this.name.last = 'Doe'
-      this.new_name.last = 'Doe'
-      this.name.first = 'John'
-      this.new_name.first = 'John'
     }
   }
 </script>

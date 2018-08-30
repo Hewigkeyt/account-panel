@@ -1,12 +1,26 @@
 <template>
   <header>
-    <h1 class="title"><font-awesome v-if="pageIcon.length" :icon="pageIcon" class="icon"></font-awesome>{{ pageTitle }}</h1>
+    <h1 class="title">
+      <font-awesome
+        v-if="pageIcon.length"
+        :icon="pageIcon"
+        class="icon"
+    />{{ pageTitle }}</h1>
   </header>
 </template>
 <script>
 export default {
-  name: 'titleComponent',
-  props: ['pageTitle', 'pageIcon'],
+  name: 'TitleComponent',
+  props: {
+    pageTitle: {
+      type: String,
+      default: ''
+    },
+    pageIcon: {
+      type: String,
+      default: ''
+    }
+  },
   data () {
       return {
       }

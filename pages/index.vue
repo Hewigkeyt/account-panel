@@ -1,15 +1,18 @@
 <template>
-<div>
-  <title-bar :pageTitle="'Account'" :pageIcon="'user'"></title-bar>
-  <account-panel></account-panel>
-</div>
+  <div>
+    <title-bar
+      :page-title="'Account'"
+      :page-icon="'user'"
+    />
+    <account-panel />
+  </div>
 </template>
 
 <script>
   import titleBar from '@/components/Title'
   import accountPanel from '@/components/AccountPanel'
   export default {
-    name: 'accountPage',
+    name: 'AccountPage',
     head () { return { title: 'Account' } },
     components: {
       'title-bar': titleBar,
