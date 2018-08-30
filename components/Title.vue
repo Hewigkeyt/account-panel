@@ -17,8 +17,11 @@ export default {
 </script>
 <style scoped>
   .title {
-    padding: 10px 0;
+    padding: 15px 0;
+    margin-bottom: 15px;
     text-align: center;
+    background: dodgerblue;
+    color: #fff;
   }
   .icon {
     margin-right: 10px;

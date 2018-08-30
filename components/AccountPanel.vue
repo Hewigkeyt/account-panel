@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="wrapper">
   <table class="base-table">
     <tbody>
 <!--   Profile picture   -->
@@ -13,39 +13,46 @@
         <td><font-awesome :icon="'user'" class="icon"></font-awesome>Full name</td>
         <td v-if="!name_edit">{{full_name}}</td>
         <td v-else>
-          Last name: <input type="text" v-model="new_name.last">
-          <transition name="fade">
-            <span class="alert" v-if="last_name_alert">Last name shouldn't be empty.</span>
-          </transition>
-          <br>
-          First name: <input type="text" v-model="new_name.first">
-          <transition name="fade">
-            <span class="alert" v-if="first_name_alert">First name shouldn't be empty.</span>
-          </transition>
+          <span class="row">
+            <span class="cell">Last name:</span>
+            <span class="cell"><input class="input" type="text" v-model="new_name.last">
+              <transition name="fade">
+                <span class="alert" v-if="last_name_alert">Last name shouldn't be empty.</span>
+              </transition>
+            </span>
+          </span>
+          <span class="row">
+            <span class="cell">First name:</span>
+            <span class="cell"><input class="input" type="text" v-model="new_name.first">
+              <transition name="fade">
+                <span class="alert" v-if="first_name_alert">First name shouldn't be empty.</span>
+              </transition>
+            </span>
+          </span>
         </td>
-        <td v-if="!name_edit"><button @click="name_edit = !name_edit">Edit</button></td>
-        <td v-else><button @click="cancel_name">Cancel</button><button @click="save_name">Save</button></td>
+        <td v-if="!name_edit"><button class="button trans" @click="name_edit = !name_edit">Edit</button></td>
+        <td v-else><button class="button trans" @click="cancel_name">Cancel</button><button class="button trans" @click="save_name">Save</button></td>
       </tr>
 <!--   Email   -->
       <tr>
         <td><font-awesome :icon="'at'" class="icon"></font-awesome>Email</td>
         <td v-if="!email_edit">{{email}}</td>
         <td v-else>
-          <input type="text" v-model="new_email">
+          <input class="input" type="text" v-model="new_email">
           <transition name="fade">
             <span class="alert" v-if="email_alert">Check the email format.</span>
           </transition>
         </td>
-        <td v-if="!email_edit"><button @click="email_edit = !email_edit">Edit</button></td>
-        <td v-else><button @click="cancel_email">Cancel</button><button @click="save_email">Save</button></td>
+        <td v-if="!email_edit"><button class="button trans" @click="email_edit = !email_edit">Edit</button></td>
+        <td v-else><button class="button trans" @click="cancel_email">Cancel</button><button class="button trans" @click="save_email">Save</button></td>
       </tr>
 <!--   Password   -->
       <tr>
-        <td><font-awesome :icon="'key'" class="icon"></font-awesome>Email</td>
+        <td><font-awesome :icon="'key'" class="icon"></font-awesome>Password</td>
         <td v-if="!pass_edit">********</td>
         <td v-else>
           <div class="password-container">
-            <input :type="password_type" v-model="new_pass">
+            <input class="input" :type="password_type" v-model="new_pass">
             <font-awesome :icon="show_pass" class="eye" @click="toggle_pass"></font-awesome>
           </div>
           Password strength is : {{test_pass}}
@@ -53,13 +60,16 @@
             <span class="alert" v-if="pass_alert">Your new password is too weak.</span>
           </transition>
         </td>
-        <td v-if="!pass_edit"><button @click="pass_edit = !pass_edit">Edit</button></td>
-        <td v-else><button @click="cancel_pass">Cancel</button><button @click="save_pass">Save</button></td>
+        <td v-if="!pass_edit"><button class="button trans" @click="pass_edit = !pass_edit">Edit</button></td>
+        <td v-else><button class="button trans" @click="cancel_pass">Cancel</button><button class="button trans" @click="save_pass">Save</button></td>
       </tr>
     </tbody>
   </table>
   <div class="center save-button">
-    <button v-if="has_changed" @click="save_profile">Save changes</button>
+    <transition name="fade">
+      <p class="big-alert" v-if="save_changes_alert">You're editing some fields. Please discard or save your changes.<br></p>
+    </transition>
+    <button class="button trans" v-if="has_changed" @click="save_profile">Save changes</button>
   </div>
 
   <transition name="fade">
@@ -103,6 +113,7 @@
         password_type: 'password',
         show_pass: 'eye',
         has_changed: false,
+        save_changes_alert: false,
         popup: false
       }
     },
@@ -207,9 +218,14 @@
         }
       },
       save_profile: function () {//save all the changes into the DB
-        //@todo send new data with API
-        this.popup = true
-        this.has_changed = false
+        if (this.name_edit || this.email_edit || this. pass_edit) {
+          this.save_changes_alert = true
+        } else {
+          this.save_changes_alert = false
+          //@todo send new data with API
+          this.popup = true
+          this.has_changed = false
+        }
       }
     },
     mounted () {
@@ -225,12 +241,33 @@
 </script>
 
 <style scoped>
-  input {
+  .input {
     width: 200px;
+    height: 22px;
+    line-height: 22px;
+    border: 1px solid #000;
+    padding: 0 3px;
     margin-bottom: 5px;
   }
-  button + button {
+  .button {
+    border: none;
+    border-radius: 4px;
+    background-color: dodgerblue;
+    padding: 3px 10px;
+    color: #fff;
+    cursor: pointer;
+  }
+  .button + .button {
     margin-left: 10px;
+  }
+  .row {
+    display: table-row;
+  }
+  .cell {
+    display: table-cell;
+  }
+  .cell + .cell {
+    padding-left: 5px;
   }
   .base-table td {
     border: 1px solid #000;
@@ -263,9 +300,14 @@
   }
   .password-container .eye {
     position: absolute;
-    top: 3px;
+    top: 5px;
     right: 5px;
     cursor: pointer;
     z-index: 2;
+  }
+  .big-alert {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
   }
 </style>
